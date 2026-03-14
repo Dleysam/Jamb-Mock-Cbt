@@ -44,6 +44,11 @@ const ExamManager = () => {
       )}
 
       {stage === 'exam' && (
+  <ExamRoom 
+    questions={examData} 
+    subjects={["English", "Math", "Physics", "Chemistry"]} // Adjust based on user choice
+  />
+)}
         <div>
           {/* We will plug the ExamRoom UI here in the next step */}
           <h2 style={{color: 'green'}}>Exam Live: {examData.length} Questions Loaded</h2>
