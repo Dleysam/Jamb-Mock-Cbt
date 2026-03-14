@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SubjectSelection from './SubjectSelection';
-import ExamRoom from './ExamRoom'; // Don't forget this import!
+import ExamRoom from './ExamRoom'; // To help me bring the main exam page
 import { fetchSubjectQuestions } from '../services/alocService';
 
 const ExamManager = () => {
