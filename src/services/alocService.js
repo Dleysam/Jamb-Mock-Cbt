@@ -1,4 +1,4 @@
-const ALOC_TOKEN = "ALOC-021181377b1daff7c6b8"; // Your token from the image
+const ALOC_TOKEN = "QB-d7e8e4ab106533355e1e"; // questions bank
 const BASE_URL = "https://questions.aloc.com.ng/api/v2/q/40"; // Fetching 40 questions at once
 
 export const fetchSubjectQuestions = async (subject) => {
