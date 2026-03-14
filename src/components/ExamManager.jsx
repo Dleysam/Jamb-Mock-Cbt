@@ -1,36 +1,36 @@
 import React, { useState } from 'react';
 import SubjectSelection from './SubjectSelection';
+import ExamRoom from './ExamRoom'; // Don't forget this import!
 import { fetchSubjectQuestions } from '../services/alocService';
 
 const ExamManager = () => {
-  const [stage, setStage] = useState('selection'); // stages: selection, loading, exam, finished
+  const [stage, setStage] = useState('selection'); 
   const [examData, setExamData] = useState([]);
+  const [selectedSubs, setSelectedSubs] = useState([]); // Store the actual subjects picked
   const [error, setError] = useState(null);
 
   const startExamFlow = async (selectedSubjects) => {
     setStage('loading');
+    setSelectedSubs(selectedSubjects);
     try {
-      // Fetch questions for all 4 subjects in parallel
       const requests = selectedSubjects.map(subject => fetchSubjectQuestions(subject));
       const results = await Promise.all(requests);
-      
-      // Combine all questions into one array or keep them grouped
       const flattenedQuestions = results.flat(); 
       
       if (flattenedQuestions.length > 0) {
         setExamData(flattenedQuestions);
         setStage('exam');
       } else {
-        throw new Error("No questions found. Check your API token.");
+        throw new Error("No questions found.");
       }
     } catch (err) {
-      setError("Failed to load questions. Please try again.");
+      setError("Failed to load questions. Please check your internet.");
       setStage('selection');
     }
   };
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div style={{ padding: '0px' }}> {/* Removed padding for full-screen feel */}
       {stage === 'selection' && (
         <SubjectSelection onStartExam={startExamFlow} />
       )}
@@ -39,24 +39,22 @@ const ExamManager = () => {
         <div style={styles.center}>
           <div className="loader"></div>
           <h2>Securing Exam Environment...</h2>
-          <p>Fetching 2026 JAMB Questions & Initializing AI Proctor...</p>
+          <p>Fetching {selectedSubs.join(", ")} Questions...</p>
         </div>
       )}
 
       {stage === 'exam' && (
-  <ExamRoom 
-    questions={examData} 
-    subjects={["English", "Math", "Physics", "Chemistry"]} // Adjust based on user choice
-  />
-)}
-        <div>
-          {/* We will plug the ExamRoom UI here in the next step */}
-          <h2 style={{color: 'green'}}>Exam Live: {examData.length} Questions Loaded</h2>
-          <p>AI Proctoring Active: Stay within camera view.</p>
-        </div>
+        <ExamRoom 
+          questions={examData} 
+          subjects={selectedSubs} 
+        />
       )}
 
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && (
+        <div style={{ textAlign: 'center', color: 'red', marginTop: '20px' }}>
+          {error}
+        </div>
+      )}
     </div>
   );
 };
@@ -66,3 +64,4 @@ const styles = {
 };
 
 export default ExamManager;
+      
