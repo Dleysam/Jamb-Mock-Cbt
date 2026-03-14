@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ProctorFeed from './ProctorFeed';
 import QuestionCard from './QuestionCard';
+import ResultPage from './ResultPage'; // Import the new ResultPage
 
 const ExamRoom = ({ questions, subjects }) => {
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -37,12 +38,14 @@ const ExamRoom = ({ questions, subjects }) => {
     return `${h}:${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
   };
 
+  // When the exam ends, show the ResultPage with corrections
   if (isFinished) {
     return (
-      <div style={styles.resultPage}>
-        <h2>Exam Submitted Successfully</h2>
-        <p>Calculating your aggregate score out of 400...</p>
-      </div>
+      <ResultPage 
+        questions={questions} 
+        userAnswers={answers} 
+        onRestart={() => window.location.reload()} 
+      />
     );
   }
 
@@ -56,7 +59,6 @@ const ExamRoom = ({ questions, subjects }) => {
         </div>
       </div>
 
-      {/* Subject Navigation Tabs */}
       <div style={styles.subjectTabs}>
         {subjects.map(sub => (
           <button 
@@ -75,7 +77,6 @@ const ExamRoom = ({ questions, subjects }) => {
 
       <div style={styles.main}>
         <div style={styles.questionSection}>
-          {/* Using our new QuestionCard component here */}
           <QuestionCard 
             questionData={questions[currentIdx]}
             questionNumber={currentIdx + 1}
@@ -133,9 +134,8 @@ const styles = {
   gridItem: { padding: '8px 0', border: '1px solid #ddd', textAlign: 'center', cursor: 'pointer', borderRadius: '4px', fontSize: '11px' },
   btn: { padding: '12px 25px', cursor: 'pointer', borderRadius: '6px', border: '1px solid #ccc', backgroundColor: '#fff' },
   btnPrimary: { padding: '12px 25px', cursor: 'pointer', borderRadius: '6px', border: 'none', backgroundColor: '#007bff', color: 'white' },
-  submitBtn: { padding: '15px', backgroundColor: '#d32f2f', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' },
-  resultPage: { display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh', textAlign: 'center' }
+  submitBtn: { padding: '15px', backgroundColor: '#d32f2f', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }
 };
 
 export default ExamRoom;
-  
+          
