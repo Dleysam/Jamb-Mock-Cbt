@@ -31,6 +31,18 @@ const ProctorFeed = ({ onViolation }) => {
       }
     };
   }, []);
+  
+  // Inside the component...
+const playWarningSound = () => {
+  const audio = new Audio('https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3'); 
+  audio.play();
+};
+
+const triggerViolation = (reason) => {
+  playWarningSound();
+  onViolation(reason); // This sends the signal back to the ExamManager
+};
+  
 
   return (
     <div style={styles.proctorContainer}>
