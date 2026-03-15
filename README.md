@@ -4,7 +4,7 @@
 A professional-grade Computer Based Test (CBT) platform designed for the 2026 JAMB Mock, featuring integrated Artificial Intelligence to monitor exam integrity.
 
 # 🚀 Live Demo
-Click here to view the live application (Link will be ready shortly)
+Click here to view the live application (https://jamb-mock-cbt-guhw.vercel.app/)
 
 # 🧠 Key Features
 Real-time AI Proctoring: Uses TensorFlow.js and MoveNet to detect unauthorized body movements and head position violations.
